@@ -1,0 +1,59 @@
+
+<div class="row">
+  <div class="col-sm-6" *ngIf="customerSelected">
+    
+    <app-titulo [title]="(customerSelected.id === 0 ? 'New Customer' : 'Customer: ' + customerSelected.id)">
+      <button class="btn btn-sm btn-outline-danger" (click)="back()" >Close</button>
+    </app-titulo>
+
+    <form [formGroup]="customerForm" (submit)="customerSubmit()">
+      <div class="mb-3">
+        <label for="customerName" class="form-label">Customer's Name</label>
+        <input type="text" formControlName="name" class="form-control" id="customerName" aria-describedby="customerName">
+      </div>
+      <div class="mb-3">
+        <label for="customerSurname" class="form-label">Customer's Surname</label>
+        <input type="text" formControlName="surname" class="form-control" id="customerSurname" aria-describedby="customerSurname">
+      </div>
+      <div class="mb-3">
+        <label for="customerCPF" class="form-label">Customer's CPF</label>
+        <input type="text" formControlName="cpf" class="form-control" id="customerCPF" aria-describedby="customerCPF">
+        <div id="customerCPFHelp" class="form-text">Format: 123.456.789-45</div>
+      </div>
+      
+      <button class="btn-sm btn btn-success" [disabled]="!customerForm.valid">Submit</button>
+    </form>
+  </div>
+  <div [ngClass]="{'col-sm-12' : !customerSelected, 'col-sm-6' : customerSelected}">
+    <app-titulo [title]="titleCustomers">
+      <button class="btn btn-sm btn-outline-success" (click)="newCustomer()" >New Customer</button>
+    </app-titulo>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Surname</th>
+          <th scope="col">CPF</th>
+          <th scope="col">Options</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let customer of customers" style="cursor: pointer;" >
+          <th scope="row">{{customer.id}}</th>
+          <td>{{customer.name}}</td>
+          <td>{{customer.surname}}</td>
+          <td>{{customer.cpf}}</td>
+          <td>
+            <div class="btn-group">
+              <button class="text-dark btn-sm btn btn-outline-warning" style="margin: 2px; border-radius: 5px;" (click)="selectCustomer(customer)">Edit</button>
+              <button class="text-dark btn-sm btn btn-outline-danger" style="margin: 2px; border-radius: 5px;" (click)="deleteCustomer(customer.id)" >Delete</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+</div>
+
